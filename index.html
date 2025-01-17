@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cake Shop Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 20px 0;
+      color: #3480e9;
+    }
+
+    h2 {
+      color: #3480e9;
+      margin: 20px 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .buttons {
+      margin: 20px 0;
+    }
+
+    .button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 18px;
+      color: #000000;
+      background-color: #3480e9;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #5d7fbf;
+    }
+
+    #data-display {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #b8b7b7;
+      text-align: left;
+      color: #d3d3d3; /* Whitish-grey color */
+    }
+
+    th {
+      background-color: #3480e9;
+      color: white; /* White color for headers */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cake Shop Management</h1>
+    <div class="buttons">
+      <button class="button" onclick="fetchData('user')">Users</button>
+      <button class="button" onclick="fetchData('product')">Products</button>
+      <button class="button" onclick="fetchData('order')">Orders</button>
+    </div>
+    <div id="data-display">
+      <h2>Data</h2>
+      <div id="data-table"></div>
+    </div>
+  </div>
+
+  <script>
+    const backendUrl = 'http://16.16.183.127:3000/'; // Replace with your backend URL
+
+    // Fetch and display data based on the type (user, product, order)
+    async function fetchData(type) {
+      try {
+        const response = await fetch(`${backendUrl}${type}`);
+        const data = await response.json();
+        displayData(data, type);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('data-table').innerHTML = '<p>Error fetching data</p>';
+      }
+    }
+
+    // Render data in a table format
+    function displayData(data, type) {
+      if (!data || data.length === 0) {
+        document.getElementById('data-table').innerHTML = '<p>No data available</p>';
+        return;
+      }
+
+      let html = `<table>`;
+      html += `<thead><tr>`;
+
+      // Generate table headers dynamically
+      if (type === 'user') {
+        html += `<th>ID</th><th>Name</th><th>Email</th>`;
+      } else if (type === 'product') {
+        html += `<th>ID</th><th>Name</th><th>Price</th><th>Description</th><th>Image URL</th>`;
+      } else if (type === 'order') {
+        html += `<th>ID</th><th>User ID</th><th>Product ID</th><th>Quantity</th><th>Status</th>`;
+      }
+
+      html += `</tr></thead>`;
+      html += `<tbody>`;
+
+      // Generate table rows dynamically
+      data.forEach((item) => {
+        html += `<tr>`;
+        if (type === 'user') {
+          html += `<td>${item.id}</td><td>${item.name}</td><td>${item.email}</td>`;
+        } else if (type === 'product') {
+          html += `<td>${item.id}</td><td>${item.name}</td><td>${item.price}</td><td>${item.description}</td><td>${item.image_url || 'N/A'}</td>`;
+        } else if (type === 'order') {
+          html += `<td>${item.id}</td><td>${item.user_id}</td><td>${item.product_id}</td><td>${item.quantity}</td><td>${item.status}</td>`;
+        }
+        html += `</tr>`;
+      });
+
+      html += `</tbody></table>`;
+      document.getElementById('data-table').innerHTML = html;
+    }
+  </script>
+</body>
+</html>
