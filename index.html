@@ -71,6 +71,12 @@
       background-color: #3480e9;
       color: white; /* White color for headers */
     }
+
+    img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+    }
   </style>
 </head>
 <body>
@@ -88,7 +94,7 @@
   </div>
 
   <script>
-    const backendUrl = 'http://16.16.183.127:3000/'; // Replace with your backend URL
+    const backendUrl = 'http://13.53.182.209:3000/'; // Replace with your backend URL
 
     // Fetch and display data based on the type (user, product, order)
     async function fetchData(type) {
@@ -116,24 +122,25 @@
       if (type === 'user') {
         html += `<th>ID</th><th>Name</th><th>Email</th>`;
       } else if (type === 'product') {
-        html += `<th>ID</th><th>Name</th><th>Price</th><th>Description</th><th>Image URL</th>`;
+        html += `<th>ID</th><th>Name</th><th>Price</th><th>Description</th><th>Image</th>`;
       } else if (type === 'order') {
         html += `<th>ID</th><th>User ID</th><th>Product ID</th><th>Quantity</th><th>Status</th>`;
       }
 
-      html += `</tr></thead>`;
-      html += `<tbody>`;
+      html += `</tr></thead><tbody>`;
 
-      // Generate table rows dynamically
-      data.forEach((item) => {
+      // Render the rows
+      data.forEach(item => {
         html += `<tr>`;
+
         if (type === 'user') {
           html += `<td>${item.id}</td><td>${item.name}</td><td>${item.email}</td>`;
         } else if (type === 'product') {
-          html += `<td>${item.id}</td><td>${item.name}</td><td>${item.price}</td><td>${item.description}</td><td>${item.image_url || 'N/A'}</td>`;
+          html += `<td>${item.id}</td><td>${item.name}</td><td>${item.price}</td><td>${item.description}</td><td><img src="${item.image_url}" alt="Product Image" /></td>`;
         } else if (type === 'order') {
           html += `<td>${item.id}</td><td>${item.user_id}</td><td>${item.product_id}</td><td>${item.quantity}</td><td>${item.status}</td>`;
         }
+
         html += `</tr>`;
       });
 
