@@ -23,10 +23,10 @@ app.use(cors({
 
 // MySQL Database Connection (Update for RDS)
 const db = mysql.createConnection({
-  host: 'cake-shop-1-rds.c18wgo0yaf1k.eu-north-1.rds.amazonaws.com', // Replace with your RDS endpoint
-  user: 'admin',               // Replace with your RDS username
-  password: 'xxxxxxxxxxxx',    // Replace with your RDS password
-  database: 'cake-shop-rds',   // Replace with your RDS database name
+  host: '', // Replace with your RDS endpoint
+  user: '',               // Replace with your RDS username
+  password: '',    // Replace with your RDS password
+  database: '',   // Replace with your RDS database name
 });
 
 // Connect to MySQL
@@ -42,8 +42,8 @@ db.connect((err) => {
 const s3Client = new S3Client({
   region: 'eu-north-1',                           // Replace with your AWS Region
   credentials: {
-    accessKeyId: 'xxxxxxxxxxxxxxxxxxxx',        // Replace with your AWS Access Key
-    secretAccessKey: 'xxxxxxxxxxxxxxxxxxxxx', // Replace with your AWS Secret Access Key
+    accessKeyId: '',        // Replace with your AWS Access Key
+    secretAccessKey: '', // Replace with your AWS Secret Access Key
   }
 });
 
